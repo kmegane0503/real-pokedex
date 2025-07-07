@@ -2,7 +2,7 @@ let pokemonList = [];
 let currentIndex = 0;
 
 function loadModal() {
-  fetch("/real-pokedex/_modalDetail.html")
+  fetch("./modalDetail.html")
     .then(res => res.text())
     .then(html => {
       document.getElementById("modal-container").innerHTML = html;
