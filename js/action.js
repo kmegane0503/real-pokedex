@@ -30,7 +30,6 @@ function displayTable() {
     html += `<tr onclick="openModal(${index})" style="cursor:pointer">
       <td class="text-end" style="width:40px;">${p.No}</td>
       <td class="text-start" style="width:80px;">${p.Name}</td>
-      <td class="text-center" style="width:100px;"><img src="./images/anime/${p.No}.png" style="height:60px;"></td>
       <td class="text-center" style="width:100px;"><img src="./images/real/${p.No}.png" style="height:60px;"></td>
       <td class="text-center" style="width:100px;">${p.Rating}</td>
       <td class="text-start">${p.Comment}</td>
@@ -56,7 +55,6 @@ function openModal(index) {
 
 function updateModalContent(p) {
   document.getElementById("pokemonModalLabel").innerText = `${p.No} ${p.Name}`;
-  document.getElementById("modal-anime").src = `images/anime/${p.No}.png`;
   document.getElementById("modal-real").src = `images/real/${p.No}.png`;
   document.getElementById("modal-comment").innerText = `評価: ${p.Rating} ／ コメント: ${p.Comment}`;
 }
