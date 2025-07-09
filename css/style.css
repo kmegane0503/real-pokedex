@@ -46,8 +46,8 @@ img.thumb {
 
 /* 画像を縦横ともに最大画面内にフィット */
 .modal-body img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 45%;
+  height: 70vh;
   object-fit: contain;
 }
 
