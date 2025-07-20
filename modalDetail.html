@@ -8,7 +8,8 @@
       </div>
       <div class="modal-body d-flex justify-content-center align-items-center">
         <div id="modal-version-overlay" class="position-absolute top-0 start-0 bg-dark text-white px-2 py-1 rounded-end small m-2">v</div>
-        <img id="modal-real" class="img-fluid" style="min-height: 200px;">
+        <img id="modal-real" class="img-fluid" style="min-height: 200px;" onerror="this.style.display='none'; document.getElementById('modal-coming-soon-msg').style.display='block';">
+        <div id="modal-coming-soon-msg" class="text-muted fw-bold" style="min-height: 200px; font-size: 50px; display: none;">Coming soon</div>
       </div>
       <div class="modal-footer">
         <p id="modal-comment" class="text-start me-auto mb-0"></p>
