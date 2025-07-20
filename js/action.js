@@ -118,6 +118,9 @@ function openModal(no) {
 }
 
 function updateModalContent(pokemons) {
+  document.getElementById("modal-real").style.display = "";
+  document.getElementById("modal-coming-soon-msg").style.display = "none";
+
   var pokemon = pokemons[0];
   document.getElementById("pokemonModalLabel").innerText = `${pokemon.No} ${pokemon.Name}`;
 
