@@ -1,4 +1,5 @@
 let pokemonList = [];
+let startPokemonIndex = 0;
 let pokemonCnt = 0;
 let currentNo = 0;
 
@@ -10,7 +11,43 @@ function loadModal() {
     });
 }
 
+function loadGenerationTabs() {
+  var csvPath = "./data/geneList.csv";
+  fetch(csvPath)
+    .then(res => res.text())
+    .then(text => {
+      const lines = text.trim().split("\n").slice(1); // ヘッダーを除く
+      const tabList = document.getElementById("generationTabs");
+
+      lines.forEach((line, index) => {
+        const [label, visible, csvFile] = line.split(",");
+
+        const li = document.createElement("li");
+        li.className = "nav-item";
+
+        const button = document.createElement("button");
+        button.className = "nav-link";
+        button.textContent = label;
+
+        if (visible === "1") {
+          if (index === 0) button.classList.add("active");
+          button.setAttribute("data-bs-toggle", "tab");
+          button.setAttribute("data-csv", csvFile);
+          button.onclick = () => {
+            loadPokemonCSV(`./data/${csvFile}.csv`);
+          };
+        } else {
+          button.classList.add("disabled"); // 非表示はクリックできない
+        }
+
+        li.appendChild(button);
+        tabList.appendChild(li);
+      });
+    });
+}
+
 function loadPokemonCSV(csvPath) {
+  pokemonList = [];
   fetch(csvPath)
     .then(response => response.text())
     .then(text => {
@@ -24,6 +61,7 @@ function loadPokemonCSV(csvPath) {
 }
 
 function displayTable() {
+  document.getElementById("pokedex-body").innerHTML = "";
   const tbody = document.getElementById('pokedex-body');
   let html = '';
 
@@ -31,7 +69,10 @@ function displayTable() {
   var befNo = "";
   pokemonCnt = 0;
   pokemonList.forEach((p, index) => {
-    if (index > 0 && p.No != befNo) {
+    if (index == 0) {
+      startPokemonIndex = Number(p.No) - 1;
+      pokemonCnt = startPokemonIndex;
+    } else if (index > 0 && p.No != befNo) {
       // 各ポケモン最新バージョンのみ一覧に表示
       html += kobetsuHtml;
       pokemonCnt++;
@@ -46,7 +87,10 @@ function displayTable() {
       <td class="text-end" style="width:40px;">${p.No}</td>
       <td class="text-start" style="width:80px;">${p.Name}</td>
       <td class="text-end" style="width:40px;">${p.Ver}</td>
-      <td class="text-center" style="width:100px;"><img src="${image}" style="height:60px;"></td>
+      <td class="text-center" style="width:100px;">
+        <img src="${image}" style="height:60px;" onerror="this.style.display='none'; document.getElementById('coming-soon-msg-${p.No}').style.display='block';">
+        <div id="coming-soon-msg-${p.No}" class="text-muted fw-bold" style="display: none;">Coming soon</div>
+      </td>
       <td class="text-center" style="width:100px;">${p.Rating}</td>
       <td class="text-start">${p.Comment}</td>
     </tr>`;
@@ -90,10 +134,10 @@ function updateModalContent(pokemons) {
 
 function navigateModal(step) {
   currentNo = Number(currentNo) + step;
-  if (currentNo <= 0) {
+  if (currentNo <= (startPokemonIndex + 1)) {
     currentNo = pokemonCnt;
   } else if (currentNo > pokemonCnt) {
-    currentNo = 1;
+    currentNo = startPokemonIndex + 1;
   }
 
   currentNo = currentNo.toString().padStart(4, "0");
@@ -104,5 +148,6 @@ function navigateModal(step) {
 // ページ読み込み後に自動実行（HTMLに <script defer> がある前提）
 document.addEventListener("DOMContentLoaded", () => {
     loadModal();
+    loadGenerationTabs();
     loadPokemonCSV("./data/gene001.csv");
 });
