@@ -55,3 +55,22 @@ img.thumb {
 .modal-footer {
   flex-wrap: nowrap;
 }
+
+/* 非活性タブ */
+.nav-link.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f8f9fa;
+}
+
+/* 選択中タブ */
+.nav-link.active {
+  font-weight: bold;
+  border-bottom: 3px solid #0d6efd;
+  background-color: #fff;
+}
+
+/* 有効タブホバー */
+.nav-link:not(.disabled):hover {
+  background-color: #e9ecef;
+}
