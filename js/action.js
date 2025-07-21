@@ -137,7 +137,7 @@ function updateModalContent(pokemons) {
 
 function navigateModal(step) {
   currentNo = Number(currentNo) + step;
-  if (currentNo <= (startPokemonIndex + 1)) {
+  if (currentNo <= startPokemonIndex) {
     currentNo = pokemonCnt;
   } else if (currentNo > pokemonCnt) {
     currentNo = startPokemonIndex + 1;
